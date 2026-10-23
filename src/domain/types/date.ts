@@ -1,19 +1,16 @@
+import { ok, err, type Result } from "./errorHandling";
 import type { Brand } from "./common";
 
-export type Year = Brand<number, "Year">;
-export type Month = Brand<number, "Month">;
-export type Day = Brand<number, "Day">;
-export interface PlainDate {
-  readonly year: Year;
-  readonly month: Month;
-  readonly day: Day;
-  readonly parse: (s: String) => PlainDate;
-}
+export type IsoDate = Brand<string, "isoDate">;
 
-export function parse(isoString: string): PlainDate | null {
-  const parseDate = // some logic
-  return parsedDate;
-}
+export function parseIsoDate(dateString: string): Result<IsoDate> {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!regex.test(dateString)) {
+    return err({
+      kind: "parseError",
+      message: "Could not parse IsoDate String",
+    });
+  }
 
-// Should i use a class instead or should i remove the parse from the data? 
-// In Rust, i would create an "Implementation"
+  return ok(dateString as IsoDate);
+}

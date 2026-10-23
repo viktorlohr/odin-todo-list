@@ -1,10 +1,10 @@
-import type { ToDo } from "./todo";
+import type { Todo } from "./todo";
 
 export interface Project {
   projectName: string;
-  todos: ToDo[];
+  todos: Todo[];
 }
 
-export function addTodo(project: Project, todo: ToDo) {
+export function addTodo(project: Project, todo: Todo) {
   project.todos.push(todo);
 }

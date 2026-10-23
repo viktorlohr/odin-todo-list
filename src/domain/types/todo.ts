@@ -1,36 +1,45 @@
-import type { todoId as todoId } from "./iDs";
+import type { TodoId } from "./iDs";
 import { isValidIsoDate } from "./date";
 
-export interface ToDo {
-  readonly todoId: todoId;
-  title: string;
-  description: string;
-  dueDate: string;
-  priority: number;
+export type Todo = { todoId: TodoId } & TodoData;
+
+interface TodoData {
+  readonly title: string;
+  readonly description: string;
+  readonly dueDate: string;
+  readonly priority: number;
 }
 
-export function setTitle(todo: ToDo, title: string) {
-  if (title.length <= 1) {
-    throw new Error("title is too short");
-  }
+type Validators = {
+  [K in keyof TodoData]: (value: TodoData[K]) => string | null;
+};
 
-  todo.title = title;
+const validators: Validators = {
+  title: (v) => (v.trim() === "" ? "title must not be empty" : null),
+  description: () => null,
+  dueDate: (v) => (isValidIsoDate(v) ? null : "invalid date string"),
+  priority: (v) =>
+    Number.isInteger(v) && v >= 0 && v <= 3
+      ? null
+      : "priority must be an integer between 0 and 3",
+};
+
+export function createTodoData(
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: number,
+): TodoData {
+  return {
+    title,
+    description,
+    dueDate,
+    priority,
+  };
 }
 
-export function setDescription(todo: ToDo, desc: string) {
-  todo.description = desc;
-}
+export function updateTodo(todo: Todo, changes: Partial<TodoData>): Todo {
+  // whats the most elegant way to check which parameters are present and then do some validation checks
 
-export function setDate(todo: ToDo, date: string) {
-  if (!isValidIsoDate(date)) {
-    throw new Error("Invalid date");
-  }
-
-  todo.dueDate = date;
-}
-
-export function setPriority(todo: ToDo, priority: number) {
-  if (0 <= priority && priority < 4) {
-    todo.priority = priority;
-  } else throw new Error("Priority must be between 0 and 3");
+  return { ...todo, ...changes };
 }

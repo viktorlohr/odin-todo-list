@@ -1,3 +1,3 @@
 import type { Brand } from "./common";
 
-export type dateID = Brand<string, "DateID">;
+export type todoId = Brand<string, "DateID">;

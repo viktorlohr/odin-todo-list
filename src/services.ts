@@ -14,11 +14,12 @@ function getProjectNames(projects: Project[]): string[] {
   return projects.map((p) => p.projectName);
 }
 
-export function createProject(projects: Project[], newProject: Project) {
-  if (getProjectNames(projects).includes(newProject.projectName)) {
+export function createProject(projects: Project[], projectName: string) {
+  if (getProjectNames(projects).includes(projectName)) {
     throw new Error("Project already exists");
   } else {
-    return projects.push(newProject);
+    const newProject = { projectName, todos: [] };
+    projects.push(newProject);
   }
 }
 

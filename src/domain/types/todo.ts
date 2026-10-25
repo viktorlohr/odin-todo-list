@@ -10,32 +10,40 @@ interface TodoData {
   readonly priority: number;
 }
 
-type Validators = {
-  [K in keyof TodoData]: (value: TodoData[K]) => string | null;
-};
-
-const validators: Validators = {
-  title: (v) => (v.trim() === "" ? "title must not be empty" : null),
-  description: () => null,
-  dueDate: (v) => (isValidIsoDate(v) ? null : "invalid date string"),
-  priority: (v) =>
-    Number.isInteger(v) && v >= 0 && v <= 3
-      ? null
-      : "priority must be an integer between 0 and 3",
-};
-
 export function createTodoData(
   title: string,
   description: string,
   dueDate: string,
   priority: number,
 ): TodoData {
+  const errorMsgs: string[] = [];
+
+  if (title.length < 3) {
+    errorMsgs.push("title too short");
+  }
+
+  if (!isValidIsoDate(dueDate)) {
+    errorMsgs.push("date must be 'YYYY-MM-DD'");
+  }
+
+  if (priority < 0 || 3 < priority) {
+    errorMsgs.push("priority must be between 0 and 3");
+  }
+
+  if (errorMsgs.length > 0) {
+    throw new Error(errorMsgs.join(", "));
+  }
+
   return {
     title,
     description,
     dueDate,
     priority,
   };
+}
+
+export function createTodoFromData(todoData: TodoData): Todo {
+  return { todoId: crypto.randomUUID() as TodoId, ...todoData };
 }
 
 export function updateTodo(todo: Todo, changes: Partial<TodoData>): Todo {

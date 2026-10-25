@@ -9,7 +9,7 @@ export const jsonStorage: Storage = {
   saveAllProjects,
 };
 
-async function loadAllProjects(): Promise<Project[]> {
+export async function loadAllProjects(): Promise<Project[]> {
   try {
     const data = await readFile(storageFile, "utf8");
     return JSON.parse(data) as Project[];
@@ -26,3 +26,4 @@ async function saveAllProjects(projects: Project[]) {
     throw new Error(`Could not write to ${storageFile}`);
   }
 }
+

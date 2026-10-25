@@ -23,4 +23,10 @@ export function createProject(projects: Project[], projectName: string) {
   }
 }
 
-export async function saveTodo(projectName: string, todo: Todo) {}
+export async function saveTodo(
+  projects: Project[],
+  todo: Todo,
+  projectName: string,
+) {
+  const projectIdx = projects.findIndex((p) => p.projectName === projectName);
+}

@@ -1,53 +1,52 @@
 import type { TodoId } from "./iDs";
 import { isValidIsoDate } from "./date";
 
-export type Todo = { todoId: TodoId } & TodoData;
+export type Todo = {
+  readonly todoId: TodoId;
+} & TodoData;
 
-interface TodoData {
+export interface TodoData {
   readonly title: string;
   readonly description: string;
   readonly dueDate: string;
   readonly priority: number;
 }
 
-export function createTodoData(
-  title: string,
-  description: string,
-  dueDate: string,
-  priority: number,
-): TodoData {
+export function createTodo(
+  todoData: TodoData,
+  todoId: TodoId = _newTodoId(),
+): Todo {
   const errorMsgs: string[] = [];
 
-  if (title.length < 3) {
+  if (todoData.title.length < 3) {
     errorMsgs.push("title too short");
   }
 
-  if (!isValidIsoDate(dueDate)) {
+  if (!isValidIsoDate(todoData.dueDate)) {
     errorMsgs.push("date must be 'YYYY-MM-DD'");
-  }
-
-  if (priority < 0 || 3 < priority) {
-    errorMsgs.push("priority must be between 0 and 3");
   }
 
   if (errorMsgs.length > 0) {
     throw new Error(errorMsgs.join(", "));
   }
 
-  return {
-    title,
-    description,
-    dueDate,
-    priority,
-  };
+  let priority = todoData.priority;
+  if (priority < 0) {
+    priority = 0;
+  } else if (priority > 3) {
+    priority = 3;
+  }
+
+  return { todoId, ...todoData, priority };
 }
 
-export function createTodoFromData(todoData: TodoData): Todo {
-  return { todoId: crypto.randomUUID() as TodoId, ...todoData };
+export function updateTodo(todo: Todo, updates: Partial<TodoData>): Todo {
+  const { todoId, ...oldData } = todo;
+  const updatedData: TodoData = { ...oldData, ...updates };
+
+  return createTodo(updatedData, todoId);
 }
 
-export function updateTodo(todo: Todo, changes: Partial<TodoData>): Todo {
-  // whats the most elegant way to check which parameters are present and then do some validation checks
-
-  return { ...todo, ...changes };
+function _newTodoId() {
+  return crypto.randomUUID() as TodoId;
 }

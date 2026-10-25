@@ -22,7 +22,9 @@
     "isolatedModules": true,
     "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "types": ["node"]
   },
   "include": ["src"]
 }

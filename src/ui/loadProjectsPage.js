@@ -1,5 +1,5 @@
 import { contentEl } from "./common";
 
-export function loadProjects() {
+export function loadProjectsPage() {
   
 }

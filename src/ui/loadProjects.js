@@ -1,4 +1,4 @@
-const content = document.getElementById('content');
+import { contentEl } from "./common";
 
 export function loadProjects() {
   

@@ -6,13 +6,14 @@ export interface Project {
 }
 
 export const Project = {
-  createProject,
+  create,
   upsertTodo,
   removeTodo,
+  merge,
 };
 
-function createProject(projectName: string): Project {
-  return { projectName, todos: [] };
+function create(projectName: string, todos: Todo[] = []): Project {
+  return { projectName, todos };
 }
 
 function upsertTodo(project: Project, newTodo: Todo): Project {
@@ -37,3 +38,12 @@ function removeTodo(project: Project, idToRemove: TodoId): Project {
     todos: project.todos.filter((todo) => todo.todoId !== idToRemove),
   };
 }
+
+function merge(
+  project1: Project,
+  project2: Project,
+  newProjectName: string,
+): Project {
+  return create(newProjectName, [...project1.todos, ...project2.todos]);
+}
+

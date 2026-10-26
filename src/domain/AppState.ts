@@ -1,4 +1,4 @@
-import type { Project } from "./project";
+import { Project } from "./project";
 
 export interface AppState {
   projects: Project[];
@@ -7,9 +7,9 @@ export interface AppState {
 export const AppState = {
   initState,
   upsertProject,
-  removeProject
-}
+  removeProject,
+};
 
 function initState(): AppState {
-  defaultProject = 
+  return { projects: [Project.createProject("default")] };
 }

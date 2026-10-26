@@ -1,8 +1,6 @@
-import { type Project } from "./project";
-import { type Todo } from "./todo";
+import { type AppState } from "./appState";
 
 export interface Storage {
-  loadAllProjects(): Promise<Project[]>;
-  saveAllProjects(projects: Project[]): Promise<void>;
-  saveTodo(todo: Todo): Promise<void>;
+  loadAppState(): Promise<AppState>;
+  saveAppState(state: AppState): Promise<void>;
 }

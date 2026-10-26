@@ -1,5 +1,5 @@
-import { type Storage } from "../types/storage";
-import { type Project } from "../types/project";
+import { type Storage } from "../domain/storage";
+import { type Project } from "../domain/project";
 import { readFile, writeFile } from "node:fs/promises";
 
 const storageFile = "./projects.json";
@@ -26,4 +26,3 @@ async function saveAllProjects(projects: Project[]) {
     throw new Error(`Could not write to ${storageFile}`);
   }
 }
-

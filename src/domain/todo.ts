@@ -1,6 +1,11 @@
 import type { Brand } from "./common";
 import { isValidIsoDate } from "./date";
 
+export const Todo = {
+  create,
+  update,
+};
+
 export type Todo = {
   readonly todoId: TodoId;
 } & TodoData;
@@ -14,10 +19,7 @@ export interface TodoData {
   readonly priority: number;
 }
 
-export function createTodo(
-  todoData: TodoData,
-  todoId: TodoId = _newTodoId(),
-): Todo {
+function create(todoData: TodoData, todoId: TodoId = _newTodoId()): Todo {
   const errorMsgs: string[] = [];
 
   if (todoData.title.length < 3) {
@@ -42,11 +44,11 @@ export function createTodo(
   return { todoId, ...todoData, priority };
 }
 
-export function updateTodo(todo: Todo, updates: Partial<TodoData>): Todo {
+function update(todo: Todo, updates: Partial<TodoData>): Todo {
   const { todoId, ...oldData } = todo;
   const updatedData: TodoData = { ...oldData, ...updates };
 
-  return createTodo(updatedData, todoId);
+  return create(updatedData, todoId);
 }
 
 function _newTodoId() {

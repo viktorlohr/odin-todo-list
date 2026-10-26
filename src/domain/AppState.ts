@@ -1,4 +1,5 @@
 import { Project } from "./project";
+import { Todo, type TodoId } from "./todo";
 
 export interface AppState {
   projects: Project[];
@@ -8,6 +9,8 @@ export const AppState = {
   initState,
   upsertProject,
   removeProject,
+  upsertTodo,
+  removeTodo,
 };
 
 function initState(): AppState {
@@ -70,4 +73,31 @@ function removeProject(
   }
 
   return { ...state, projects: [defaultProject, ...otherProjects] };
+}
+
+function upsertTodo(
+  state: AppState,
+  projectName: string,
+  todo: Todo,
+): AppState {
+  return _modifyProject(state, projectName, (p) => Project.upsertTodo(p, todo));
+}
+
+function removeTodo(state: AppState, projectName: string, todoId: TodoId) {
+  return _modifyProject(state, projectName, (p) =>
+    Project.removeTodo(p, todoId),
+  );
+}
+
+function _modifyProject(
+  state: AppState,
+  projectName: string,
+  f: (p: Project) => Project,
+) {
+  let project = state.projects.find((p) => p.projectName === projectName);
+  if (!project) {
+    project = Project.create(projectName);
+  }
+
+  return upsertProject(state, f(project));
 }

@@ -10,23 +10,27 @@ export async function loadProjects() {
   }
 }
 
-function getProjectNames(projects: Project[]): string[] {
-  return projects.map((p) => p.projectName);
-}
-
-export function createProject(projects: Project[], projectName: string) {
-  if (getProjectNames(projects).includes(projectName)) {
-    throw new Error("Project already exists");
+export function createProject(
+  projects: Project[],
+  projectName: string,
+): Project[] {
+  if (projects.some((p) => p.projectName === projectName)) {
+    throw new Error(`project ${projectName} already exists`);
   } else {
     const newProject = { projectName, todos: [] };
     projects.push(newProject);
+    return projects;
   }
 }
 
-export async function saveTodo(
+export function saveTodo(
   projects: Project[],
   todo: Todo,
   projectName: string,
-) {
-  const projectIdx = projects.findIndex((p) => p.projectName === projectName);
+): Project[] {
+  return projects.map((project) =>
+    project.projectName === projectName
+      ? { ...project, todos: [...project.todos, todo] }
+      : project,
+  );
 }

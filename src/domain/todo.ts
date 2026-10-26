@@ -1,9 +1,11 @@
-import type { TodoId } from "./iDs";
+import type { Brand } from "./common";
 import { isValidIsoDate } from "./date";
 
 export type Todo = {
   readonly todoId: TodoId;
 } & TodoData;
+
+export type TodoId = Brand<string, "DateID">;
 
 export interface TodoData {
   readonly title: string;

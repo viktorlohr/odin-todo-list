@@ -6,9 +6,14 @@ export interface Project {
 }
 
 export const Project = {
+  createProject,
   upsertTodo,
   removeTodo,
 };
+
+function createProject(projectName: string): Project {
+  return { projectName, todos: [] };
+}
 
 function upsertTodo(project: Project, newTodo: Todo): Project {
   let hasUpdated = false;

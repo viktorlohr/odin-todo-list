@@ -1,11 +1,14 @@
-import type { Project } from "./domain/project";
-import { type Todo } from "./domain/todo";
+import { AppState } from "./domain/appState";
 import { jsonStorage as storage } from "./storage/jsonStorage";
 
-export async function loadProjects() {
+const STATE = await loadState();
+
+async function loadState() {
+  let state;
   try {
-    return storage.loadAllProjects();
-  } catch (err) {
-    throw err;
+    state = storage.loadAppState();
+  } catch {
+    state = AppState.initState();
   }
+  return state;
 }

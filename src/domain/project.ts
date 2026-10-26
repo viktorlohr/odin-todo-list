@@ -1,13 +1,13 @@
-import type { Todo } from "./todo";
-import type { TodoId } from "./iDs";
+import type { Todo, TodoId } from "./todo";
 
 export interface Project {
-  projectName: string;
-  todos: Todo[];
+  readonly projectName: string;
+  readonly todos: Todo[];
 }
 
 export const Project = {
   upsertTodo,
+  removeTodo,
 };
 
 function upsertTodo(project: Project, newTodo: Todo): Project {
@@ -26,4 +26,9 @@ function upsertTodo(project: Project, newTodo: Todo): Project {
   return { ...project, todos: [...project.todos, newTodo] };
 }
 
-function removeTodo(project: Project, idToRemove: TodoId) {}
+function removeTodo(project: Project, idToRemove: TodoId): Project {
+  return {
+    ...project,
+    todos: project.todos.filter((todo) => todo.todoId !== idToRemove),
+  };
+}

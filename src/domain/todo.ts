@@ -6,27 +6,32 @@ export const Todo = {
   update,
 };
 
-export type Todo = {
-  readonly todoId: TodoId;
-} & TodoData;
+interface rawTodo {
+  todoId: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: string;
+}
 
 export type TodoId = Brand<string, "DateID">;
 
-export interface TodoData {
+export interface Todo {
+  readonly todoId: TodoId;
   readonly title: string;
   readonly description: string;
   readonly dueDate: string;
   readonly priority: number;
 }
 
-function create(todoData: TodoData, todoId: TodoId = _newTodoId()): Todo {
+function create(todo: rawTodo): Todo {
   const errorMsgs: string[] = [];
 
-  if (todoData.title.length < 3) {
+  if (todo.title.length < 3) {
     errorMsgs.push("title too short");
   }
 
-  if (!isValidIsoDate(todoData.dueDate)) {
+  if (!isValidIsoDate(todo.dueDate)) {
     errorMsgs.push("date must be 'YYYY-MM-DD'");
   }
 
@@ -34,19 +39,19 @@ function create(todoData: TodoData, todoId: TodoId = _newTodoId()): Todo {
     throw new Error(errorMsgs.join(", "));
   }
 
-  let priority = todoData.priority;
+  let priority = todo.priority;
   if (priority < 0) {
     priority = 0;
   } else if (priority > 3) {
     priority = 3;
   }
 
-  return { todoId, ...todoData, priority };
+  return { ...todo, priority };
 }
 
-function update(todo: Todo, updates: Partial<TodoData>): Todo {
+function update(todo: Todo, updates: Partial<Todo>): Todo {
   const { todoId, ...oldData } = todo;
-  const updatedData: TodoData = { ...oldData, ...updates };
+  const updatedData: Todo = { ...oldData, ...updates };
 
   return create(updatedData, todoId);
 }

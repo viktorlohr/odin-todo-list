@@ -1,8 +1,8 @@
-import type { Todo, TodoId } from "./todo";
+import type { rawTodo, TodoId } from "./todo";
 
 export interface Project {
   readonly projectName: string;
-  readonly todos: Todo[];
+  readonly todos: rawTodo[];
 }
 
 export const Project = {
@@ -12,11 +12,11 @@ export const Project = {
   merge,
 };
 
-function create(projectName: string, todos: Todo[] = []): Project {
+function create(projectName: string, todos: rawTodo[] = []): Project {
   return { projectName, todos };
 }
 
-function upsertTodo(project: Project, newTodo: Todo): Project {
+function upsertTodo(project: Project, newTodo: rawTodo): Project {
   let hasUpdated = false;
   const updatedTodos = project.todos.map((todo) => {
     if (todo.todoId === newTodo.todoId) {
@@ -46,4 +46,3 @@ function merge(
 ): Project {
   return create(newProjectName, [...project1.todos, ...project2.todos]);
 }
-

@@ -3,7 +3,10 @@ import { Project } from "../domain/project";
 
 export function loadProjectPage(project: Project) {
   const titleEl = document.createElement("h1");
-  titleEl.textContent = project.projectName;
+  const projectName =
+    project.projectName === "default" ? "General Tasks" : project.projectName;
+
+  titleEl.textContent = projectName;
 
   contentEl.appendChild(titleEl);
 }

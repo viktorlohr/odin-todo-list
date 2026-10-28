@@ -28,7 +28,7 @@ async function upsertAndSaveTodo(
   state: AppState,
   projectName: string,
   rawTodo: rawTodo,
-) {
+): Promise<AppState> {
   let todo;
   try {
     todo = Todo.create(rawTodo);
@@ -36,15 +36,18 @@ async function upsertAndSaveTodo(
     throw e;
   }
 
-  _modifyAndSaveState(state, (s) => AppState.upsertTodo(s, projectName, todo));
+  return _modifyAndSaveState(state, (s) =>
+    AppState.upsertTodo(s, projectName, todo),
+  );
 }
 
 async function removeTodo(
   state: AppState,
   projectName: string,
   rawTodoId: string,
-) {
+): Promise<AppState> {
   let todoId = rawTodoId as TodoId;
+
   return _modifyAndSaveState(state, (s) =>
     AppState.removeTodo(s, projectName, todoId),
   );
@@ -60,4 +63,6 @@ async function _modifyAndSaveState(
   } catch (e) {
     throw e;
   }
+
+  return state;
 }

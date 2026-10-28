@@ -24,4 +24,9 @@ export default defineConfig(
     files: ["**/*.js"],
     extends: [tseslint.configs.disableTypeChecked],
   },
+  {
+    rules: {
+      "@typescript-eslint/explicit-function-return-type": "error",
+    },
+  },
 );

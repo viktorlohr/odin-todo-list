@@ -2,19 +2,37 @@ import "./styles.css";
 import { Services } from "./services";
 
 let state = await Services.loadState();
-console.log(state);
+console.log("initial state: " + state);
 
 // --- TEST ---
-const testTodo = {
-  todoId: "8cd5e818-5b1e-4d7c-b726-1b43f3f06f33",
-  title: "changedTitle",
-  description: "desc",
-  dueDate: "2026-11-11",
-  priority: "4",
-};
+async function test() {
+  const testProjectName = "testtestProject";
+  const testTodoId = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+  const testTodo = {
+    todoId: testTodoId,
+    title: "huhu",
+    description: "desc",
+    dueDate: "2026-11-11",
+    priority: "4",
+  };
 
-await Services.upsertAndSaveTodo(state, "test", testTodo);
+  state = await Services.upsertAndSaveTodo(state, testProjectName, testTodo);
+  console.log("in memory state after insertion: ");
+  console.log(state);
+  console.log("state of local storage: ");
+  console.log(await Services.loadState());
 
-const fileData = await Services.loadState();
-console.log(fileData);
-console.log(state);
+  state = await Services.removeTodo(state, testProjectName, testTodoId);
+  console.log("state after removal: ");
+  console.log(state);
+  console.log("state of local storage: ");
+  console.log(await Services.loadState());
+
+  state = await Services.upsertAndSaveTodo(state, testProjectName, testTodo);
+  console.log("in memory state after second insertion: ");
+  console.log(state);
+  console.log("state of local storage: ");
+  console.log(await Services.loadState());
+}
+
+test();

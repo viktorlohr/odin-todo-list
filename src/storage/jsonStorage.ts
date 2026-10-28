@@ -1,9 +1,7 @@
 import { type Storage } from "./storageInterface";
 import { AppState } from "../domain/appState";
-import { readFile, writeFile } from "node:fs/promises";
-import { access } from "fs/promises";
 
-const storageFilePath = "./projects.json";
+const STORAGE_KEY = "odin_todo_list_state";
 
 export const jsonStorage: Storage = {
   initStorage,
@@ -12,35 +10,29 @@ export const jsonStorage: Storage = {
 };
 
 async function initStorage() {
-  const doesExist = _checkFileExists();
-  if (!doesExist) {
+  const data = localStorage.getItem(STORAGE_KEY);
+  if (!data) {
     saveAppState(AppState.initState());
   }
 }
 
 async function loadAppState(): Promise<AppState> {
   try {
-    const data = await readFile(storageFilePath, "utf8");
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) {
+      throw new Error("No saved state found");
+    }
     return JSON.parse(data) as AppState;
   } catch (err) {
-    throw new Error(`Could not load ${storageFilePath}`);
+    throw new Error(`Could not load state from localStorage`);
   }
 }
 
 async function saveAppState(state: AppState) {
   try {
     const data = JSON.stringify(state);
-    await writeFile(storageFilePath, data);
+    localStorage.setItem(STORAGE_KEY, data);
   } catch (err) {
-    throw new Error(`Could not write to ${storageFilePath}`);
-  }
-}
-
-async function _checkFileExists() {
-  try {
-    await access(storageFilePath);
-    return true;
-  } catch {
-    return false;
+    throw new Error(`Could not save state to localStorage`);
   }
 }

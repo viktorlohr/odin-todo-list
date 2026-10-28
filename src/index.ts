@@ -3,7 +3,8 @@ import { Services } from "./services";
 import { loadProjectPage } from "./ui/loadProjectPage";
 
 let state = await Services.loadState();
-console.log("initial state: " + state);
+console.log("initial state: ");
+console.log(state);
 
 const defaultProject = state.projects.find((p) => p.projectName === "default");
 if (!defaultProject) {

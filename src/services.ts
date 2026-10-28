@@ -2,20 +2,18 @@ import { AppState } from "./domain/appState";
 import { jsonStorage as storage } from "./storage/jsonStorage";
 import { Todo, type rawTodo } from "./domain/todo";
 
-interface rawProject {
-  title: string;
-  todos: rawTodo[];
-}
+export const Services = {
+  loadState,
+  upsertAndSaveTodo,
+};
 
-try {
-  await storage.initStorage();
-} catch (e) {
-  throw new Error("Couldn't init storage");
-}
+async function loadState(): Promise<AppState> {
+  try {
+    await storage.initStorage();
+  } catch (e) {
+    throw new Error("Couldn't init storage");
+  }
 
-let state = await storage.loadAppState();
-
-async function loadState() {
   let state;
   try {
     state = storage.loadAppState();
@@ -25,12 +23,10 @@ async function loadState() {
   return state;
 }
 
-async function upsertAndSaveTodo(rawTodo: rawTodo) {
+async function upsertAndSaveTodo(rawTodo: rawTodo, projectName: string) {
   try {
     const todo = Todo.create(rawTodo);
   } catch (e) {
     throw e;
   }
-
-
 }

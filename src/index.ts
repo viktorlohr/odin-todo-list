@@ -1,4 +1,5 @@
 import "./styles.css";
-import { helloWorld } from "./helloWorld";
+import { Services } from "./services";
 
-helloWorld();
+let state = await Services.loadState();
+

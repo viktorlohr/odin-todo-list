@@ -1,5 +1,5 @@
 import { AppState } from "./domain/appState";
-import { jsonStorage as storage } from "./storage/jsonStorage";
+import { jsonStorage as Storage } from "./storage/jsonStorage";
 import { Todo, type rawTodo } from "./domain/todo";
 
 export const Services = {
@@ -9,23 +9,42 @@ export const Services = {
 
 async function loadState(): Promise<AppState> {
   try {
-    await storage.initStorage();
+    await Storage.initStorage();
   } catch (e) {
     throw new Error("Couldn't init storage");
   }
 
   let state;
   try {
-    state = storage.loadAppState();
+    state = Storage.loadAppState();
   } catch (e) {
     throw e;
   }
   return state;
 }
 
-async function upsertAndSaveTodo(rawTodo: rawTodo, projectName: string) {
+async function upsertAndSaveTodo(
+  state: AppState,
+  projectName: string,
+  rawTodo: rawTodo,
+) {
+  let todo;
   try {
-    const todo = Todo.create(rawTodo);
+    todo = Todo.create(rawTodo);
+  } catch (e) {
+    throw e;
+  }
+
+  _modifyAndSaveState(state, (s) => AppState.upsertTodo(s, projectName, todo));
+}
+
+async function _modifyAndSaveState(
+  state: AppState,
+  f: (s: AppState) => AppState,
+) {
+  state = f(state);
+  try {
+    await Storage.saveAppState(state);
   } catch (e) {
     throw e;
   }

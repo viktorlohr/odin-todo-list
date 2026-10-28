@@ -17,19 +17,19 @@ function initState(): AppState {
   return { projects: [Project.create("default")] };
 }
 
-function upsertProject(state: AppState, project: Project): AppState {
+function upsertProject(state: AppState, updatedProject: Project): AppState {
   let updated = false;
   const updatedProjects = state.projects.map((p) => {
-    if (p.projectName === project.projectName) {
+    if (p.projectName === updatedProject.projectName) {
       updated = true;
-      return project;
+      return updatedProject;
     } else {
       return p;
     }
   });
 
   if (!updated) {
-    return { ...state, projects: [...state.projects, project] };
+    return { ...state, projects: [...state.projects, updatedProject] };
   }
 
   return { ...state, projects: updatedProjects };
@@ -93,7 +93,7 @@ function _modifyProject(
   state: AppState,
   projectName: string,
   f: (p: Project) => Project,
-) {
+): AppState {
   let project = state.projects.find((p) => p.projectName === projectName);
   if (!project) {
     project = Project.create(projectName);

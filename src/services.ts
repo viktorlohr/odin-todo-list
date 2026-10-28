@@ -1,4 +1,4 @@
-import { AppState } from "./domain/appState";
+import { AppState } from "./domain/AppState";
 import { LocalStorage as Storage } from "./storage/localStorage";
 import { Todo, type rawTodo, type TodoId } from "./domain/todo";
 

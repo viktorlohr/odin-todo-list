@@ -1,5 +1,5 @@
 import { type Storage } from "./storageInterface";
-import { AppState } from "../domain/appState";
+import { AppState } from "../domain/AppState";
 
 const STORAGE_KEY = "odin_todo_list_state";
 

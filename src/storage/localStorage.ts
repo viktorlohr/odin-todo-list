@@ -3,7 +3,7 @@ import { AppState } from "../domain/appState";
 
 const STORAGE_KEY = "odin_todo_list_state";
 
-export const jsonStorage: Storage = {
+export const LocalStorage: Storage = {
   initStorage,
   loadAppState,
   saveAppState,

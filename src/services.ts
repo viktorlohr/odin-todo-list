@@ -1,10 +1,11 @@
 import { AppState } from "./domain/appState";
-import { jsonStorage as Storage } from "./storage/jsonStorage";
-import { Todo, type rawTodo } from "./domain/todo";
+import { LocalStorage as Storage } from "./storage/localStorage";
+import { Todo, type rawTodo, type TodoId } from "./domain/todo";
 
 export const Services = {
   loadState,
   upsertAndSaveTodo,
+  removeTodo,
 };
 
 async function loadState(): Promise<AppState> {
@@ -36,6 +37,17 @@ async function upsertAndSaveTodo(
   }
 
   _modifyAndSaveState(state, (s) => AppState.upsertTodo(s, projectName, todo));
+}
+
+async function removeTodo(
+  state: AppState,
+  projectName: string,
+  rawTodoId: string,
+) {
+  let todoId = rawTodoId as TodoId;
+  return _modifyAndSaveState(state, (s) =>
+    AppState.removeTodo(s, projectName, todoId),
+  );
 }
 
 async function _modifyAndSaveState(

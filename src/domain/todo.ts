@@ -3,16 +3,7 @@ import { isValidIsoDate } from "./date";
 
 export const Todo = {
   create,
-  update,
 };
-
-interface rawTodo {
-  todoId: string;
-  title: string;
-  description: string;
-  dueDate: string;
-  priority: string;
-}
 
 export type TodoId = Brand<string, "DateID">;
 
@@ -22,6 +13,14 @@ export interface Todo {
   readonly description: string;
   readonly dueDate: string;
   readonly priority: number;
+}
+
+export interface rawTodo {
+  todoId: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: string;
 }
 
 function create(todo: rawTodo): Todo {
@@ -39,23 +38,27 @@ function create(todo: rawTodo): Todo {
     throw new Error(errorMsgs.join(", "));
   }
 
-  let priority = todo.priority;
+  let todoId;
+  if (todo.todoId.length < 30) {
+    todoId = _newTodoId();
+  } else {
+    todoId = todo.todoId as TodoId;
+  }
+
+  let title = todo.title;
+  let description = todo.description;
+  let dueDate = todo.dueDate;
+
+  let priority = +todo.priority;
   if (priority < 0) {
     priority = 0;
   } else if (priority > 3) {
     priority = 3;
   }
 
-  return { ...todo, priority };
+  return { todoId, title, description, dueDate, priority };
 }
 
-function update(todo: Todo, updates: Partial<Todo>): Todo {
-  const { todoId, ...oldData } = todo;
-  const updatedData: Todo = { ...oldData, ...updates };
-
-  return create(updatedData, todoId);
-}
-
-function _newTodoId() {
+function _newTodoId(): TodoId {
   return crypto.randomUUID() as TodoId;
 }

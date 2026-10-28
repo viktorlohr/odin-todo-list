@@ -1,8 +1,6 @@
 import { AppState } from "./domain/appState";
 import { jsonStorage as storage } from "./storage/jsonStorage";
-import { rawTodo } from "./domain/todo";
-
-
+import { Todo, type rawTodo } from "./domain/todo";
 
 interface rawProject {
   title: string;
@@ -28,10 +26,11 @@ async function loadState() {
 }
 
 async function upsertAndSaveTodo(rawTodo: rawTodo) {
-  let todo;
-  if (rawTodo.todoId === "") {
-    todo = rawTodo.create();
+  try {
+    const todo = Todo.create(rawTodo);
+  } catch (e) {
+    throw e;
   }
-}
 
-function parseRawTodoData(): TodoData;
+
+}

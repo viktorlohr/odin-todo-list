@@ -1,6 +1,7 @@
 import { type Storage } from "./storageInterface";
 import { AppState } from "../domain/appState";
 import { readFile, writeFile } from "node:fs/promises";
+import { access } from "fs/promises";
 
 const storageFilePath = "./projects.json";
 
@@ -35,7 +36,7 @@ async function saveAppState(state: AppState) {
   }
 }
 
-function _checkFileExists() {
+async function _checkFileExists() {
   try {
     await access(storageFilePath);
     return true;

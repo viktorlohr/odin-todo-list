@@ -1,8 +1,8 @@
-import type { rawTodo, TodoId } from "./todo";
+import type { Todo, TodoId } from "./todo";
 
 export interface Project {
   readonly projectName: string;
-  readonly todos: rawTodo[];
+  readonly todos: Todo[];
 }
 
 export const Project = {
@@ -12,11 +12,11 @@ export const Project = {
   merge,
 };
 
-function create(projectName: string, todos: rawTodo[] = []): Project {
+function create(projectName: string, todos: Todo[] = []): Project {
   return { projectName, todos };
 }
 
-function upsertTodo(project: Project, newTodo: rawTodo): Project {
+function upsertTodo(project: Project, newTodo: Todo): Project {
   let hasUpdated = false;
   const updatedTodos = project.todos.map((todo) => {
     if (todo.todoId === newTodo.todoId) {

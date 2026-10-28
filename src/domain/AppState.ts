@@ -1,5 +1,5 @@
 import { Project } from "./project";
-import { rawTodo, type TodoId } from "./todo";
+import { Todo, type TodoId } from "./todo";
 
 export interface AppState {
   projects: Project[];
@@ -78,7 +78,7 @@ function removeProject(
 function upsertTodo(
   state: AppState,
   projectName: string,
-  todo: rawTodo,
+  todo: Todo,
 ): AppState {
   return _modifyProject(state, projectName, (p) => Project.upsertTodo(p, todo));
 }

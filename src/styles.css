@@ -2,6 +2,9 @@
 
 :root {
   --secondary-bg-color: rgb(18, 65, 113);
+  --very-high-priority-bg-color: rgb(142, 0, 0);
+  --high-priority-bg-color: rgb(138, 104, 0);
+  --low-priority-bg-color: rgb(88, 88, 88);
 }
 
 #content {
@@ -42,4 +45,16 @@ h2 {
 
 .todo .dueDate {
   margin-top: 1rem;
+}
+
+.very-high-priority {
+  background-color: var(--very-high-priority-bg-color);
+}
+
+.high-priority {
+  background-color: var(--high-priority-bg-color);
+}
+
+.low-priority {
+  background-color: var(--low-priority-bg-color);
 }

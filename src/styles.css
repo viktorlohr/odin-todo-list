@@ -18,13 +18,14 @@ h2 {
 }
 
 .todo.container {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
 .card {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   background-color: var(--secondary-bg-color);
   padding: 1rem;
@@ -37,4 +38,8 @@ h2 {
 
 .todo .desc {
   font-size: 0.1rem;
+}
+
+.todo .dueDate {
+  margin-top: 1rem;
 }

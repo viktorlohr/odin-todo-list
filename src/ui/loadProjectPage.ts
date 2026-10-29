@@ -2,6 +2,7 @@ import { contentEl } from "./common";
 import { Project } from "../domain/project";
 import { Todo } from "../domain/todo";
 import { loadEditPage } from "../ui/loadEditPage";
+import { removeTodo } from "../index";
 
 export function loadProjectPage(project: Project) {
   contentEl.replaceChildren();
@@ -81,12 +82,7 @@ export function loadProjectPage(project: Project) {
     removeButton.addEventListener("click", (e) => {
       e.preventDefault();
 
-      removeButton.dispatchEvent(
-        new CustomEvent("todo-delete", {
-          bubbles: true,
-          detail: { projectName: project.projectName, todoId: todo.todoId },
-        }),
-      );
+      removeTodo(projectName, todo.todoId);
     });
 
     const editButton = document.createElement("div");

@@ -25,10 +25,8 @@ state = await Services.upsertAndSaveTodo(state, "default", testTodo);
 
 loadProjectPage(defaultProject);
 
-document.addEventListener("todo-delete", async (e) => {
-  const deleteEvent = e as CustomEvent<{ projectName: string; todoId: string }>;
-  const { projectName, todoId } = deleteEvent.detail;
-
+// expand this into modify state function
+export async function removeTodo(projectName: string, todoId: string) {
   state = await Services.removeTodo(state, projectName, todoId);
   loadProjectPage(state.projects.find((p) => p.projectName === projectName)!);
-});
+}

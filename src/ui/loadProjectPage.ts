@@ -1,11 +1,10 @@
 import { contentEl } from "./common";
 import { Project } from "../domain/project";
 import { Todo } from "../domain/todo";
-import { Services } from "../services";
-import { AppState } from "../domain/AppState";
 import { loadEditPage } from "../ui/loadEditPage";
 
-export function loadProjectPage(state: AppState, project: Project) {
+export function loadProjectPage(project: Project) {
+  contentEl.replaceChildren();
   // Title
   const titleEl = document.createElement("h2");
   const projectName =
@@ -78,12 +77,20 @@ export function loadProjectPage(state: AppState, project: Project) {
   function addBtns(todo: Todo, todoEl: HTMLElement) {
     const removeButton = document.createElement("button");
     removeButton.classList.add("remove");
+    removeButton.textContent = "remove";
     removeButton.addEventListener("click", (e) => {
       e.preventDefault();
-      Services.removeTodo(state, projectName, todo.todoId);
+
+      removeButton.dispatchEvent(
+        new CustomEvent("todo-delete", {
+          bubbles: true,
+          detail: { projectName: project.projectName, todoId: todo.todoId },
+        }),
+      );
     });
 
     const editButton = document.createElement("div");
+    editButton.textContent = "edit";
     editButton.classList.add("edit");
     editButton.addEventListener("click", (e) => {
       e.preventDefault();

@@ -87,8 +87,8 @@ export function loadProjectPage(state: AppState, project: Project) {
     editButton.classList.add("edit");
     editButton.addEventListener("click", (e) => {
       e.preventDefault();
-      loadEditPage();
-    })
+      loadEditPage(projectName, todo);
+    });
 
     todoEl.appendChild(editButton);
     todoEl.appendChild(removeButton);

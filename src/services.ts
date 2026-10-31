@@ -6,6 +6,7 @@ export const Services = {
   getInMemoryState,
   upsertAndPersistTodo,
   removeTodoAndPersist,
+  removeAndPersistProject,
 };
 
 let state = await Storage.loadAppState();
@@ -31,6 +32,10 @@ async function removeTodoAndPersist(
 ): Promise<void> {
   let todoId = rawTodoId as TodoId;
   _modifyAndPersistState((s) => AppState.removeTodo(s, projectName, todoId));
+}
+
+async function removeAndPersistProject(projectName: string) {
+  _modifyAndPersistState((s) => AppState.removeProject(s, projectName, true));
 }
 
 async function _modifyAndPersistState(

@@ -7,8 +7,8 @@
   --low-priority-bg-color: rgb(88, 88, 88);
 }
 
-header {
-  
+#site-title {
+  padding: 1rem;
 }
 
 #content {

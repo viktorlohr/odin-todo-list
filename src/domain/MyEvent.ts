@@ -5,4 +5,5 @@ export type MyEvent =
   | { kind: "removeTodo"; projectName: string; todoId: string }
   | { kind: "upsertTodo"; projectName: string; todo: rawTodo }
   | { kind: "upsertTodoAlt"; projectName: string; todoId: string }
-  | { kind: "upsertProject"; projectName: string };
+  | { kind: "upsertProject"; projectName: string }
+  | { kind: "removeProject"; projectName: string };

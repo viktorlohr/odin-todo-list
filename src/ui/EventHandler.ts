@@ -17,6 +17,11 @@ function handle(e: MyEvent) {
       Services.upsertAndPersistTodo(e.projectName, e.todo);
       _reloadProject(e.projectName);
       break;
+    case "removeProject":
+      Services.removeAndPersistProject(e.projectName);
+      break;
+    default:
+      console.log(e + " not implemented yet...");
   }
 }
 

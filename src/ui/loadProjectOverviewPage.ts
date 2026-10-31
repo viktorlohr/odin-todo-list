@@ -1,6 +1,7 @@
 import { Services } from "../services";
 import { contentEl } from "./common";
 import { EventHandler } from "./EventHandler";
+import { loadNewProjectForm } from "./loadNewProjectForm";
 import { loadProjectPage } from "./loadProjectPage";
 
 export function loadProjectOverviewPage() {
@@ -44,4 +45,13 @@ export function loadProjectOverviewPage() {
   });
 
   contentEl.appendChild(projectOverviewEl);
+
+  const newProjectBtn = document.createElement("button");
+  newProjectBtn.classList.add("new-project");
+  newProjectBtn.textContent = "+";
+  newProjectBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    loadNewProjectForm();
+  });
+  contentEl.appendChild(newProjectBtn);
 }

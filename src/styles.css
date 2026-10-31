@@ -65,3 +65,21 @@ h2 {
 .low-priority {
   background-color: var(--low-priority-bg-color);
 }
+
+button.new-project {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  height: 3rem;
+  width: 3rem;
+  background-color: var(--secondary-bg-color);
+  text-align: center;
+  text-justify: center;
+  border-radius: 12px;
+}
+
+.form-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}

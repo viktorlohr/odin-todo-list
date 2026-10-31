@@ -1,3 +1,4 @@
+import type { MyEvent } from "./MyEvent";
 import { Project } from "./project";
 import { Todo, type TodoId } from "./todo";
 
@@ -35,7 +36,7 @@ function upsertProject(state: AppState, updatedProject: Project): AppState {
   const lastEvent = {
     kind: "upsertProject",
     projectName: updatedProject.projectName,
-  };
+  } as MyEvent;
 
   if (!updated) {
     return {
@@ -94,9 +95,9 @@ function upsertTodo(
   todo: Todo,
 ): AppState {
   state.lastEvent = {
-    kind: "upsertTodo",
+    kind: "upsertTodoAlt",
     projectName: projectName,
-    todoId: todo.todoId,
+    todoId: todo.todoId as string,
   };
   return _modifyProject(state, projectName, (p) => Project.upsertTodo(p, todo));
 }

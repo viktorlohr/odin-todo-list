@@ -7,10 +7,10 @@ export const EventHandler = {
 
 function handle(e: MyEvent) {
   switch (e.kind) {
-    case "remove":
+    case "removeTodo":
       Services.removeTodoAndPersist(e.projectName, e.todoId);
       break;
-    case "upsert":
+    case "upsertTodo":
       Services.upsertAndPersistTodo(e.projectName, e.todo);
       break;
   }

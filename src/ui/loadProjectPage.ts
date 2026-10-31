@@ -82,7 +82,7 @@ export function loadProjectPage(project: Project) {
     removeButton.addEventListener("click", (e) => {
       e.preventDefault();
       EventHandler.handle({
-        kind: "remove",
+        kind: "removeTodo",
         projectName: projectName,
         todoId: todo.todoId,
       });

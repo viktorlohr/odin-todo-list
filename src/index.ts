@@ -1,6 +1,7 @@
 import "./styles.css";
 import { Services } from "./services";
 import { loadProjectPage } from "./ui/loadProjectPage";
+import { AppState } from "./domain/AppState";
 
 let state = await Services.loadState();
 console.log("initial state: ");
@@ -25,7 +26,7 @@ state = await Services.upsertAndSaveTodo(state, "default", testTodo);
 
 loadProjectPage(defaultProject);
 
-// expand this into modify state function
+
 export async function removeTodo(projectName: string, todoId: string) {
   state = await Services.removeTodo(state, projectName, todoId);
   loadProjectPage(state.projects.find((p) => p.projectName === projectName)!);

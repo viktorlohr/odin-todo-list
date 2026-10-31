@@ -4,12 +4,11 @@ import { AppState } from "../domain/AppState";
 const STORAGE_KEY = "odin_todo_list_state";
 
 export const LocalStorage: Storage = {
-  initStorage,
   loadAppState,
   saveAppState,
 };
 
-async function initStorage() {
+async function _initStorage() {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) {
     saveAppState(AppState.initState());
@@ -18,9 +17,15 @@ async function initStorage() {
 
 async function loadAppState(): Promise<AppState> {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
+    let data = localStorage.getItem(STORAGE_KEY);
     if (!data) {
-      throw new Error("No saved state found");
+      const initState = AppState.initState();
+      try {
+        saveAppState(initState);
+      } catch (e) {
+        throw e;
+      }
+      data = JSON.stringify(initState);
     }
     return JSON.parse(data) as AppState;
   } catch (err) {

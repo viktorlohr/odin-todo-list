@@ -3,66 +3,53 @@ import { LocalStorage as Storage } from "./storage/localStorage";
 import { Todo, type rawTodo, type TodoId } from "./domain/todo";
 
 export const Services = {
-  loadState,
+  getInMemoryState,
   upsertAndSaveTodo,
-  removeTodo,
+  removeTodoAndSave,
 };
 
-async function loadState(): Promise<AppState> {
-  try {
-    await Storage.initStorage();
-  } catch (e) {
-    throw new Error("Couldn't init storage");
-  }
+let state = await _loadState();
 
-  let state;
-  try {
-    state = Storage.loadAppState();
-  } catch (e) {
-    throw e;
-  }
+function getInMemoryState(): AppState {
   return state;
 }
 
-async function upsertAndSaveTodo(
-  state: AppState,
-  projectName: string,
-  rawTodo: rawTodo,
-): Promise<AppState> {
+async function upsertAndSaveTodo(projectName: string, rawTodo: rawTodo) {
   let todo;
   try {
     todo = Todo.create(rawTodo);
   } catch (e) {
     throw e;
   }
-
-  return _modifyAndSaveState(state, (s) =>
-    AppState.upsertTodo(s, projectName, todo),
-  );
+  _modifyAndSaveState((s) => AppState.upsertTodo(s, projectName, todo));
 }
 
-async function removeTodo(
-  state: AppState,
-  projectName: string,
-  rawTodoId: string,
-): Promise<AppState> {
+async function removeTodoAndSave(projectName: string, rawTodoId: string) {
   let todoId = rawTodoId as TodoId;
-
-  return _modifyAndSaveState(state, (s) =>
-    AppState.removeTodo(s, projectName, todoId),
-  );
+  _modifyAndSaveState((s) => AppState.removeTodo(s, projectName, todoId));
 }
 
-async function _modifyAndSaveState(
-  state: AppState,
-  f: (s: AppState) => AppState,
-) {
+async function _modifyAndSaveState(f: (s: AppState) => AppState) {
   state = f(state);
   try {
     await Storage.saveAppState(state);
   } catch (e) {
     throw e;
   }
+}
 
+async function _loadState(): Promise<AppState> {
+  try {
+    await Storage.initStorage();
+  } catch (e) {
+    throw new Error("Couldn't init storage");
+  }
+
+  let s;
+  try {
+    s = Storage.loadAppState();
+  } catch (e) {
+    throw e;
+  }
   return state;
 }

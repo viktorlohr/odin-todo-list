@@ -11,12 +11,18 @@ export function loadProjectOverviewPage() {
   projectOverviewEl.style.gridTemplateColumns = "1fr 1fr 1fr";
   projectOverviewEl.style.gap = "1rem";
 
+  const projectOverviewTitleEl = document.createElement("h2");
+  projectOverviewTitleEl.textContent = "My Projects";
+  contentEl.appendChild(projectOverviewTitleEl);
+
   state.projects.forEach((p) => {
     const projectEl = document.createElement("div");
     projectEl.classList.add("project", "card");
 
     const titleEl = document.createElement("h2");
-    titleEl.textContent = p.projectName;
+
+    titleEl.textContent =
+      p.projectName === "default" ? "General Tasks" : p.projectName;
     projectEl.appendChild(titleEl);
     titleEl.addEventListener("click", (e) => {
       e.preventDefault();
@@ -32,6 +38,7 @@ export function loadProjectOverviewPage() {
         projectName: p.projectName,
       });
     });
+    projectEl.appendChild(removeBtn);
 
     projectOverviewEl.appendChild(projectEl);
   });

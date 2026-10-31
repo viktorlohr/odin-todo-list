@@ -3,9 +3,19 @@ import { Project } from "../domain/project";
 import { Todo } from "../domain/todo";
 import { loadEditPage } from "../ui/loadEditPage";
 import { EventHandler } from "./EventHandler";
+import { loadProjectOverviewPage } from "./loadProjectOverviewPage";
 
 export function loadProjectPage(project: Project) {
   contentEl.replaceChildren();
+  // Project Overview
+  const projectOverviewBtn = document.createElement("button");
+  projectOverviewBtn.textContent = " <- Project Overview";
+  projectOverviewBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    loadProjectOverviewPage();
+  });
+  contentEl.appendChild(projectOverviewBtn);
+
   // Title
   const titleEl = document.createElement("h2");
   const projectName =

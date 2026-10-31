@@ -7,26 +7,27 @@ export const EventHandler = {
   handle,
 };
 
-function handle(e: MyEvent) {
+async function handle(e: MyEvent) {
   switch (e.kind) {
     case "removeTodo":
-      Services.removeTodoAndPersist(e.projectName, e.todoId);
+      await Services.removeTodoAndPersist(e.projectName, e.todoId);
       _reloadProject(e.projectName);
       break;
     case "upsertTodo":
-      Services.upsertAndPersistTodo(e.projectName, e.todo);
+      await Services.upsertAndPersistTodo(e.projectName, e.todo);
       _reloadProject(e.projectName);
       break;
     case "removeProject":
-      Services.removeAndPersistProject(e.projectName);
+      await Services.removeAndPersistProject(e.projectName);
+      loadProjectOverviewPage();
       break;
     default:
       console.log(e + " not implemented yet...");
   }
 }
 
-function _reloadProject(projectName: string) {
-  const project = Services.getInMemoryState().projects.find(
+async function _reloadProject(projectName: string) {
+  const project = await Services.getInMemoryState().projects.find(
     (p) => p.projectName === projectName,
   );
   project ? loadProjectPage(project) : loadProjectOverviewPage();

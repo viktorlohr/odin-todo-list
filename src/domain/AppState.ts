@@ -3,7 +3,7 @@ import { Todo, type TodoId } from "./todo";
 
 export interface AppState {
   projects: Project[];
-  lastEvent: MyEvent
+  lastEvent: MyEvent;
 }
 
 export const AppState = {
@@ -15,7 +15,10 @@ export const AppState = {
 };
 
 function initState(): AppState {
-  return { projects: [Project.create("default")] };
+  return {
+    projects: [Project.create("default")],
+    lastEvent: { kind: "openProject", projectName: "default" },
+  };
 }
 
 function upsertProject(state: AppState, updatedProject: Project): AppState {
@@ -29,11 +32,20 @@ function upsertProject(state: AppState, updatedProject: Project): AppState {
     }
   });
 
+  const lastEvent = {
+    kind: "upsertProject",
+    projectName: updatedProject.projectName,
+  };
+
   if (!updated) {
-    return { ...state, projects: [...state.projects, updatedProject] };
+    return {
+      ...state,
+      projects: [...state.projects, updatedProject],
+      lastEvent,
+    };
   }
 
-  return { ...state, projects: updatedProjects };
+  return { ...state, projects: updatedProjects, lastEvent };
 }
 
 function removeProject(
@@ -81,10 +93,20 @@ function upsertTodo(
   projectName: string,
   todo: Todo,
 ): AppState {
+  state.lastEvent = {
+    kind: "upsertTodo",
+    projectName: projectName,
+    todoId: todo.todoId,
+  };
   return _modifyProject(state, projectName, (p) => Project.upsertTodo(p, todo));
 }
 
 function removeTodo(state: AppState, projectName: string, todoId: TodoId) {
+  state.lastEvent = {
+    kind: "removeTodo",
+    projectName,
+    todoId,
+  };
   return _modifyProject(state, projectName, (p) =>
     Project.removeTodo(p, todoId),
   );

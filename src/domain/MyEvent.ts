@@ -1,5 +1,6 @@
 import type { rawTodo } from "./todo";
 
 export type MyEvent =
-  | { kind: "remove"; projectName: string; todoId: string }
-  | { kind: "upsert"; projectName: string; todo: rawTodo };
+  | { kind: "openProject"; projectName: string }
+  | { kind: "removeTodo"; projectName: string; todoId: string }
+  | { kind: "upsertTodo"; projectName: string; todo: rawTodo };

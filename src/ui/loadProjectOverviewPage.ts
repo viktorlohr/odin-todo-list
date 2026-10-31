@@ -5,7 +5,9 @@ import { loadProjectPage } from "./loadProjectPage";
 export function loadProjectOverviewPage() {
   const state = Services.getInMemoryState();
   contentEl.replaceChildren();
-  contentEl.style.display = "flex";
+  contentEl.style.display = "grid";
+  contentEl.style.gridTemplateColumns = "1fr 1fr 1fr";
+  contentEl.style.gap = "1rem";
 
   state.projects.forEach((p) => {
     const projectEl = document.createElement("div");

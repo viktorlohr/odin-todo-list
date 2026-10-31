@@ -1,11 +1,13 @@
 import { AppState } from "./domain/AppState";
 import { LocalStorage as Storage } from "./storage/localStorage";
 import { Todo, type rawTodo, type TodoId } from "./domain/todo";
+import { Project } from "./domain/project";
 
 export const Services = {
   getInMemoryState,
   upsertAndPersistTodo,
   removeTodoAndPersist,
+  upsertAndPersistProject,
   removeAndPersistProject,
 };
 
@@ -31,11 +33,21 @@ async function removeTodoAndPersist(
   rawTodoId: string,
 ): Promise<void> {
   let todoId = rawTodoId as TodoId;
-  _modifyAndPersistState((s) => AppState.removeTodo(s, projectName, todoId));
+  await _modifyAndPersistState((s) =>
+    AppState.removeTodo(s, projectName, todoId),
+  );
+}
+
+async function upsertAndPersistProject(projectName: string) {
+  await _modifyAndPersistState((s) =>
+    AppState.upsertProject(s, Project.create(projectName)),
+  );
 }
 
 async function removeAndPersistProject(projectName: string) {
-  _modifyAndPersistState((s) => AppState.removeProject(s, projectName, true));
+  await _modifyAndPersistState((s) =>
+    AppState.removeProject(s, projectName, true),
+  );
 }
 
 async function _modifyAndPersistState(

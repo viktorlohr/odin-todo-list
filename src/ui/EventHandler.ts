@@ -17,6 +17,10 @@ async function handle(e: MyEvent) {
       await Services.upsertAndPersistTodo(e.projectName, e.todo);
       _reloadProject(e.projectName);
       break;
+    case "upsertProject":
+      await Services.upsertAndPersistProject(e.projectName);
+      loadProjectOverviewPage();
+      break;
     case "removeProject":
       await Services.removeAndPersistProject(e.projectName);
       loadProjectOverviewPage();

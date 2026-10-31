@@ -3,6 +3,7 @@ import { Todo, type TodoId } from "./todo";
 
 export interface AppState {
   projects: Project[];
+  lastEvent: MyEvent
 }
 
 export const AppState = {

@@ -19,12 +19,10 @@ async function upsertAndPersistTodo(
   rawTodo: rawTodo,
 ): Promise<void> {
   let todo;
-  try {
-    todo = Todo.create(rawTodo);
-  } catch (e) {
-    throw e;
-  }
-  _modifyAndPersistState((s) => AppState.upsertTodo(s, projectName, todo));
+  todo = Todo.create(rawTodo);
+  await _modifyAndPersistState((s) =>
+    AppState.upsertTodo(s, projectName, todo),
+  );
 }
 
 async function removeTodoAndPersist(
@@ -38,10 +36,7 @@ async function removeTodoAndPersist(
 async function _modifyAndPersistState(
   f: (s: AppState) => AppState,
 ): Promise<void> {
-  state = f(state);
-  try {
-    await Storage.saveAppState(state);
-  } catch (e) {
-    throw e;
-  }
+  const nextState = f(state);
+  await Storage.saveAppState(state);
+  state = nextState;
 }

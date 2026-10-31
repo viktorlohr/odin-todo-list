@@ -8,13 +8,6 @@ export const LocalStorage: Storage = {
   saveAppState,
 };
 
-async function _initStorage() {
-  const data = localStorage.getItem(STORAGE_KEY);
-  if (!data) {
-    saveAppState(AppState.initState());
-  }
-}
-
 async function loadAppState(): Promise<AppState> {
   try {
     let data = localStorage.getItem(STORAGE_KEY);

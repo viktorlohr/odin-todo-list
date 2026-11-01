@@ -1,7 +1,6 @@
 import { contentEl } from "./common";
 import { Project } from "../domain/project";
 import { Todo } from "../domain/todo";
-import { loadEditPage } from "../ui/loadEditPage";
 import { EventHandler } from "./EventHandler";
 import { loadProjectOverviewPage } from "./loadProjectOverviewPage";
 import { loadNewTodoFormPage } from "./loadNewTodoFormPage";
@@ -113,7 +112,7 @@ export function loadProjectPage(project: Project) {
     editButton.classList.add("edit");
     editButton.addEventListener("click", (e) => {
       e.preventDefault();
-      loadEditPage(projectName, todo);
+      loadNewTodoFormPage(projectName, todo);
     });
 
     todoEl.appendChild(editButton);

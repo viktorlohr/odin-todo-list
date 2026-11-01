@@ -2,6 +2,7 @@
 
 :root {
   --secondary-bg-color: rgb(18, 65, 113);
+  --tertiary-bg-color: rgb(4, 96, 188);
   --very-high-priority-bg-color: rgb(142, 0, 0);
   --high-priority-bg-color: rgb(138, 104, 0);
   --low-priority-bg-color: rgb(88, 88, 88);
@@ -85,12 +86,17 @@ button.new {
 form {
   display: flex;
   flex-direction: column;
-  background-color: gray;
+  background-color: var(--secondary-bg-color);
   padding: 1rem;
   border-radius: 12px;
+  box-shadow: 12px 0px 12px black;
 
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.label {
+  margin-top: 1rem;
 }

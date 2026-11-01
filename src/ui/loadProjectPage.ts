@@ -1,15 +1,15 @@
 import { contentEl } from "./common";
 import { Project } from "../domain/project";
 import { Todo } from "../domain/todo";
-import { EventHandler } from "./EventHandler";
 import { loadProjectOverviewPage } from "./loadProjectOverviewPage";
 import { loadNewTodoFormPage } from "./loadNewTodoFormPage";
+import { loadAreYouSurePrompt } from "./loadAreYouSurePrompt";
 
 export function loadProjectPage(project: Project) {
   contentEl.replaceChildren();
   // Project Overview
   const projectOverviewBtn = document.createElement("button");
-  projectOverviewBtn.textContent = " <- Project Overview";
+  projectOverviewBtn.textContent = "← Project Overview";
   projectOverviewBtn.addEventListener("click", (e) => {
     e.preventDefault();
     loadProjectOverviewPage();
@@ -102,7 +102,7 @@ export function loadProjectPage(project: Project) {
     removeButton.textContent = "";
     removeButton.addEventListener("click", (e) => {
       e.preventDefault();
-      EventHandler.handle({
+      loadAreYouSurePrompt({
         kind: "removeTodo",
         projectName: project.projectName,
         todoId: todo.todoId,

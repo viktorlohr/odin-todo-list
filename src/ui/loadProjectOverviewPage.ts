@@ -1,6 +1,6 @@
 import { Services } from "../services";
 import { contentEl } from "./common";
-import { EventHandler } from "./EventHandler";
+import { loadAreYouSurePrompt } from "./loadAreYouSurePrompt";
 import { loadNewProjectForm } from "./loadNewProjectForm";
 import { loadProjectPage } from "./loadProjectPage";
 
@@ -39,7 +39,7 @@ export function loadProjectOverviewPage() {
       removeBtn.classList.add("remove");
       removeBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        EventHandler.handle({
+        loadAreYouSurePrompt({
           kind: "removeProject",
           projectName: p.projectName,
         });

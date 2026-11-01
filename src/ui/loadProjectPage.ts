@@ -4,6 +4,7 @@ import { Todo } from "../domain/todo";
 import { loadEditPage } from "../ui/loadEditPage";
 import { EventHandler } from "./EventHandler";
 import { loadProjectOverviewPage } from "./loadProjectOverviewPage";
+import { loadNewTodoFormPage } from "./loadNewTodoFormPage";
 
 export function loadProjectPage(project: Project) {
   contentEl.replaceChildren();
@@ -22,6 +23,15 @@ export function loadProjectPage(project: Project) {
     project.projectName === "default" ? "General Tasks" : project.projectName;
   titleEl.textContent = projectName;
   contentEl.appendChild(titleEl);
+
+  // New Todo Button
+  const newTodoBtn = document.createElement("button");
+  newTodoBtn.classList.add("new");
+  newTodoBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    loadNewTodoFormPage(project.projectName);
+  });
+  contentEl.appendChild(newTodoBtn);
 
   // Todos
   const todoContainerEl = document.createElement("div");

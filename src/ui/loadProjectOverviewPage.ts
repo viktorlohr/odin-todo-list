@@ -47,8 +47,7 @@ export function loadProjectOverviewPage() {
   contentEl.appendChild(projectOverviewEl);
 
   const newProjectBtn = document.createElement("button");
-  newProjectBtn.classList.add("new-project");
-  newProjectBtn.textContent = "+";
+  newProjectBtn.classList.add("new", "project");
   newProjectBtn.addEventListener("click", (e) => {
     e.preventDefault();
     loadNewProjectForm();

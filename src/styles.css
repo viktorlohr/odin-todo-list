@@ -69,14 +69,15 @@ h2 {
 
 button.new {
   position: absolute;
-  bottom: 24px;
-  right: 24px;
+  bottom: 34px;
+  right: 34px;
   height: 3rem;
   width: 3rem;
   background-color: var(--secondary-bg-color);
   text-align: center;
   text-justify: center;
   border-radius: 12px;
+  transform: scale(1.5);
 }
 
 .new::after {

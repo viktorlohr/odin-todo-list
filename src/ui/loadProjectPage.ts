@@ -18,9 +18,8 @@ export function loadProjectPage(project: Project) {
 
   // Title
   const titleEl = document.createElement("h2");
-  const projectName =
+  titleEl.textContent =
     project.projectName === "default" ? "General Tasks" : project.projectName;
-  titleEl.textContent = projectName;
   contentEl.appendChild(titleEl);
 
   // New Todo Button
@@ -102,7 +101,7 @@ export function loadProjectPage(project: Project) {
       e.preventDefault();
       EventHandler.handle({
         kind: "removeTodo",
-        projectName: projectName,
+        projectName: project.projectName,
         todoId: todo.todoId,
       });
     });
@@ -112,7 +111,7 @@ export function loadProjectPage(project: Project) {
     editButton.classList.add("edit");
     editButton.addEventListener("click", (e) => {
       e.preventDefault();
-      loadNewTodoFormPage(projectName, todo);
+      loadNewTodoFormPage(project.projectName, todo);
     });
 
     todoEl.appendChild(editButton);

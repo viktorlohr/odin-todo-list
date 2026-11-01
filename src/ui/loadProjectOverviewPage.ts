@@ -30,16 +30,18 @@ export function loadProjectOverviewPage() {
       loadProjectPage(p);
     });
 
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "remove";
-    removeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      EventHandler.handle({
-        kind: "removeProject",
-        projectName: p.projectName,
+    if (!(p.projectName === "default")) {
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "remove";
+      removeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        EventHandler.handle({
+          kind: "removeProject",
+          projectName: p.projectName,
+        });
       });
-    });
-    projectEl.appendChild(removeBtn);
+      projectEl.appendChild(removeBtn);
+    }
 
     projectOverviewEl.appendChild(projectEl);
   });

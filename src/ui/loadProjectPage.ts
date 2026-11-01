@@ -94,9 +94,12 @@ export function loadProjectPage(project: Project) {
   }
 
   function addBtns(todo: Todo, todoEl: HTMLElement) {
+    const btnContainerEL = document.createElement("div");
+    btnContainerEL.classList.add("buttons");
+
     const removeButton = document.createElement("button");
     removeButton.classList.add("remove");
-    removeButton.textContent = "remove";
+    removeButton.textContent = "";
     removeButton.addEventListener("click", (e) => {
       e.preventDefault();
       EventHandler.handle({
@@ -106,15 +109,17 @@ export function loadProjectPage(project: Project) {
       });
     });
 
-    const editButton = document.createElement("div");
-    editButton.textContent = "edit";
+    const editButton = document.createElement("button");
+    editButton.textContent = "";
     editButton.classList.add("edit");
     editButton.addEventListener("click", (e) => {
       e.preventDefault();
       loadNewTodoFormPage(project.projectName, todo);
     });
 
-    todoEl.appendChild(editButton);
-    todoEl.appendChild(removeButton);
+    btnContainerEL.appendChild(editButton);
+    btnContainerEL.appendChild(removeButton);
+
+    todoEl.appendChild(btnContainerEL);
   }
 }

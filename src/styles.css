@@ -101,3 +101,16 @@ form {
 .label {
   margin-top: 1rem;
 }
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: right;
+}
+
+.remove::before {
+  content: "🗑";
+}
+.edit::before {
+  content: "✏️";
+}

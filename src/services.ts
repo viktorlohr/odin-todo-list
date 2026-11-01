@@ -54,6 +54,6 @@ async function _modifyAndPersistState(
   f: (s: AppState) => AppState,
 ): Promise<void> {
   const nextState = f(state);
-  await Storage.saveAppState(state);
+  await Storage.saveAppState(nextState);
   state = nextState;
 }

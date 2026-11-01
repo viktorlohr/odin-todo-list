@@ -29,10 +29,14 @@ export function loadProjectOverviewPage() {
       e.preventDefault();
       loadProjectPage(p);
     });
+    titleEl.style.cursor = "pointer";
 
     if (!(p.projectName === "default")) {
+      const btnWrapper = document.createElement("div");
+      btnWrapper.classList.add("button-container");
+
       const removeBtn = document.createElement("button");
-      removeBtn.textContent = "remove";
+      removeBtn.classList.add("remove");
       removeBtn.addEventListener("click", (e) => {
         e.preventDefault();
         EventHandler.handle({
@@ -40,7 +44,9 @@ export function loadProjectOverviewPage() {
           projectName: p.projectName,
         });
       });
-      projectEl.appendChild(removeBtn);
+
+      btnWrapper.appendChild(removeBtn);
+      projectEl.appendChild(btnWrapper);
     }
 
     projectOverviewEl.appendChild(projectEl);
